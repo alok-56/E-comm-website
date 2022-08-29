@@ -38,6 +38,9 @@ app.post('/signin', async (req, res) => {
 })
 
 //---------------user login api----------
+app.get('/',(req,res)=>{
+  res.send("hsh")
+})
 
 app.post('/login', async (req, res) => {
   if (req.body.email && req.body.password) {
