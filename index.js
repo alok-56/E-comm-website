@@ -29,6 +29,10 @@ app.use(fileupload({
 
 //---------------user signin api---------
 
+app.get('/',(req.res)=>{
+  res.send('hello')
+})
+
 app.post('/signin', async (req, res) => {
   const result = new user(req.body);
   const data = await result.save();
