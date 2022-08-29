@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors')
 require('./db/config')
-const PORT = process.env.PORT || 4500;
+const port = process.env.PORT || 4500;
 const user = require('./db/schema/userschema')
 const product = require('./db/schema/product')
 const adwin = require('./db/schema/adwin');
@@ -28,9 +28,8 @@ app.use(fileupload({
 }))
 
 //---------------user signin api---------
-
 app.get('/',(req,res)=>{
-  app.send("hello")
+  res.send("app")
 })
 
 app.post('/signin', async (req, res) => {
@@ -254,4 +253,6 @@ if(process.env.NODE_ENV === "production"){
 
 
 
-app.listen(PORT);
+app.listen(port, ()=>{
+  console.log("app is running")
+} );
