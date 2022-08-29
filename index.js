@@ -29,7 +29,7 @@ app.use(fileupload({
 
 //---------------user signin api---------
 
-app.get('/',(req.res)=>{
+app.get('/',(req,res)=>{
   res.send('hello')
 })
 
