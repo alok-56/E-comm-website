@@ -30,7 +30,7 @@ app.use(fileupload({
 //---------------user signin api---------
 
 app.get('/',(req,res)=>{
-  res.send('hello')
+  res.send('hello');
 })
 
 app.post('/signin', async (req, res) => {
