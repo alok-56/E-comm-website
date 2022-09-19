@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const path=require("path")
 const bodyparser=require('body-parser');
-require('./db/config')
+//require('./db/config')
+require("dotenv").config();
 const port = process.env.PORT || 4500;
 const user = require('./db/schema/userschema')
 const product = require('./db/schema/product')
@@ -10,7 +12,6 @@ const order=require('./db/schema/orderproduct');
 const contact=require('./db/schema/contact')
 
 const fileupload = require('express-fileupload');
-const { find } = require('./db/schema/userschema');
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({
@@ -19,6 +20,17 @@ cloudinary.config({
   api_secret: '_svozk1NVYoC0NWVSoV-fhR-j5c',
   secure: true
 });
+
+const mongoose=require("mongoose");
+
+const db=process.env.DATABASE;
+mongoose.connect(db).then(()=>{
+    console.log("connection found")
+}).catch((e)=>{
+    console.log("disconnected")
+})
+
+
 
 const app = express();
 app.use(express.json());
@@ -247,16 +259,19 @@ app.post('/adwin', async(req,res) => {
   res.send(result)
 })
 
-//----------------heruku--------------
+//---------------heruku deployment--------------
+
+const dirname1=path.resolve();
 if(process.env.NODE_ENV === "production"){
-  app.use(express.static("/client/build"));
-};
-
-const path=require("path")
-app.get("*",(req,res)=>{
-  res.sendFile(path.join(__dirname,'client','build','index.html'));
-})
-
+  app.use(express.static(path.join(__dirname,"/client/build")));
+  app.get("*",(req,res)=>{
+    res.sendFile(path.resolve(__dirname,"client","build","index.html"));
+  })
+}else{
+  app.get("/",(req,res)=>{
+    res.send("app is running")
+  })
+}
 
 
 app.listen(port, ()=>{
