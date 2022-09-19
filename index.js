@@ -262,17 +262,16 @@ app.post('/adwin', async(req,res) => {
 //---------------heruku deployment--------------
 
 const __dirname1=path.resolve();
-if(process.env.NODE_ENV === "production"){
-  app.use(express.static(path.join(__dirname1,"/client/build")));
+if(process.env.NODE_ENV == "production"){
+  app.use(express.static(("client/build")));
   app.get("*",(req,res)=>{
-    res.sendFile(path.resolve(__dirname1,"client","build","index.html"));
+    res.sendFile(path.resolve(__dirname,"client","build","index.html"));
   })
 }else{
-
+  app.get("/",(req,res)=>{
+    res.send("app is running")
+  })
 }
-app.get("/",(req,res)=>{
-  res.send("app is running")
-})
 
 app.listen(port, ()=>{
   console.log("app is running");
