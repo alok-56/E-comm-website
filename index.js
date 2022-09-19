@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const path=require("path")
 const bodyparser=require('body-parser');
 //require('./db/config')
 require("dotenv").config();
@@ -261,18 +260,13 @@ app.post('/adwin', async(req,res) => {
 
 //---------------heruku deployment--------------
 
-const __dirname1=path.resolve();
 if(process.env.NODE_ENV == "production"){
   app.use(express.static(("client/build")));
+  const path=require("path");
   app.get("*",(req,res)=>{
     res.sendFile(path.resolve(__dirname,"client","build","index.html"));
   })
-}else{
-  app.get("/",(req,res)=>{
-    res.send("app is running")
-  })
 }
-
 app.listen(port, ()=>{
   console.log("app is running");
 } );
