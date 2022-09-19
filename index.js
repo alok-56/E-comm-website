@@ -1,5 +1,6 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
+const bodyparser=require('body-parser');
 require('./db/config')
 const port = process.env.PORT || 4500;
 const user = require('./db/schema/userschema')
@@ -22,6 +23,8 @@ cloudinary.config({
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(bodyparser.urlencoded({extended:false}));
+app.use(bodyparser.json());
 app.use(fileupload({
   useTempFiles: true
 }))
@@ -243,6 +246,11 @@ app.post('/adwin', async(req,res) => {
   const result = await adwin.findOne(req.body)
   res.send(result)
 })
+
+//----------------heruku--------------
+if(process.env.NODE_ENV == "production"){
+  app.use(express.static("client/build"));
+}
 
 
 app.listen(port, ()=>{
