@@ -22,7 +22,7 @@ cloudinary.config({
 
 const mongoose=require("mongoose");
 
-const db='mongodb+srv://alok56:ak56@cluster0.65jpmqq.mongodb.net/apnadukan?retryWrites=true&w=majority';
+const db=process.env.DATABASE
 mongoose.connect(db).then(()=>{
     console.log("connection found")
 }).catch((e)=>{
