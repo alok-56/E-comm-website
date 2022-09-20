@@ -268,13 +268,11 @@ if(process.env.NODE_ENV === 'production'){
     res.sendFile(path.resolve(__dirname1,"client","build","index.html"))
   })
 }
-else{
   app.get('/',(req,res)=>{
     res.send("api is running fine");
   })
   
 
-}
 
 app.listen(port,()=>{
   console.log("app is running on",port);
