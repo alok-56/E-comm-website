@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const bodyparser=require('body-parser');
-//require('./db/config')
 require("dotenv").config();
 const port = process.env.PORT || 4500;
 const user = require('./db/schema/userschema')
@@ -9,6 +8,7 @@ const product = require('./db/schema/product')
 const adwin = require('./db/schema/adwin');
 const order=require('./db/schema/orderproduct');
 const contact=require('./db/schema/contact')
+const path=require("path");
 
 const fileupload = require('express-fileupload');
 const cloudinary = require('cloudinary').v2;
@@ -21,6 +21,7 @@ cloudinary.config({
 });
 
 const mongoose=require("mongoose");
+const exp = require('constants');
 
 const db=process.env.DATABASE;
 mongoose.connect(db).then(()=>{
@@ -258,15 +259,23 @@ app.post('/adwin', async(req,res) => {
   res.send(result)
 })
 
-//---------------heruku deployment--------------
+//---------------heruku deployment--------------//
 
-if(process.env.NODE_ENV == "production"){
-  app.use(express.static(("client/build")));
-  const path=require("path");
-  app.get("*",(req,res)=>{
-    res.sendFile(path.resolve(__dirname,"client","build","index.html"));
+const __dirname1=path.resolve();
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static(path.join(__dirname1,'/client/build')))
+  app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname1,"client","build","index.html"))
   })
 }
-app.listen(port, ()=>{
-  console.log("app is running");
+else{
+  app.get('/',(req,res)=>{
+    res.send("api is running fine");
+  })
+  
+
+}
+
+app.listen(port,()=>{
+  console.log("app is running on",port);
 } );
